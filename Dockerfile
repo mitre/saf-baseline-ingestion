@@ -22,5 +22,7 @@ COPY profiles ./profiles/
 
 COPY ingest.js ./
 
+COPY entrypoint.sh ./
+
 # ENTRYPOINT ["node", "./ingest.js"]
 ENTRYPOINT ["bash", "entrypoint.sh"]
