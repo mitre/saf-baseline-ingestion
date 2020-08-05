@@ -1,0 +1,9 @@
+{
+  "name": "saf-baseline-ingestion",
+  "version": "1.0.0",
+  "description": "Ingest baselines and parse out which NIST 800-53 controls they validate",
+  "dependencies": {
+    "csv-parse": "^4.11.1",
+    "inspecjs": "^0.12.1"
+  }
+}
