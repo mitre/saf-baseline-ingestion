@@ -12,12 +12,12 @@ RUN curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec -v 4.1
 
 WORKDIR control_table_data_ingest
 
-COPY package.json package-lock.json .
+COPY package.json package-lock.json ./
 
 RUN npm ci
 
-COPY profiles ./profiles
+COPY profiles ./profiles/
 
-COPY ingest.js .
+COPY ingest.js ./
 
 ENTRYPOINT ["node", "./ingest.js"]
