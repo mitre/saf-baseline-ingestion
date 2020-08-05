@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec -v 4.18.108
 
-RUN cd control_table_data_ingest
+RUN pwd
+
+RUN ls
 
 COPY package.json package-lock.json ./
 
