@@ -10,9 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec -v 4.18.108
 
-RUN pwd
-
-RUN ls
+WORKDIR /control-table-data-ingest
 
 COPY package.json package-lock.json ./
 
@@ -24,5 +22,4 @@ COPY ingest.js ./
 
 COPY entrypoint.sh ./
 
-# ENTRYPOINT ["node", "./ingest.js"]
 ENTRYPOINT ["bash", "entrypoint.sh"]

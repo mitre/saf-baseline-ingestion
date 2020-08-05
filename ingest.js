@@ -116,7 +116,7 @@ const controlsType = 'NIST SP 800-53 Control';
   try {
     const allControls = getAllControlsCanonized();
 
-    let { baselines, extras } = JSON.parse(await fs.readFile('../src/assets/data/baselines.json', 'utf8'));
+    let { baselines, extras } = JSON.parse(await fs.readFile('/github/workspace/src/assets/data/baselines.json', 'utf8'));
     console.log(baselines);
 
     const allProfileControls = {};
@@ -171,7 +171,7 @@ const controlsType = 'NIST SP 800-53 Control';
       console.log('controls that the extra thing has', extra.longName, allExtraControls[extra.longName]);
     }
 
-    await fs.writeFile('../src/assets/data/baselines.json', JSON.stringify({baselines, extras}, null, 2), 'utf8');
+    await fs.writeFile('/github/workspace/src/assets/data/baselines.json', JSON.stringify({baselines, extras}, null, 2), 'utf8');
     console.log('overwrite baselines with new hashes');
 
     const controlMapping = [];
@@ -192,7 +192,7 @@ const controlsType = 'NIST SP 800-53 Control';
     }
     console.log('control mapping', controlMapping);
 
-    await fs.writeFile('../src/assets/data/mitre-saf-control-mapping.json', JSON.stringify(controlMapping, null, 2), 'utf8');
+    await fs.writeFile('/github/workspace/src/assets/data/mitre-saf-control-mapping.json', JSON.stringify(controlMapping, null, 2), 'utf8');
     console.log('hopefully we\'re in a success state now');
   } catch (error) {
     console.log('error', error);
