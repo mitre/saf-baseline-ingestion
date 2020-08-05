@@ -21,4 +21,4 @@ COPY profiles ./profiles/
 COPY ingest.js ./
 
 # ENTRYPOINT ["node", "./ingest.js"]
-ENTRYPOINT ["pwd"]
+ENTRYPOINT ["ls"]
