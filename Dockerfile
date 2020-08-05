@@ -22,4 +22,4 @@ COPY ingest.js ./
 
 COPY entrypoint.sh ./
 
-ENTRYPOINT ["bash", "entrypoint.sh"]
+ENTRYPOINT ["bash", "/control-table-data-ingest/entrypoint.sh"]
