@@ -20,4 +20,4 @@ COPY profiles ./profiles/
 
 COPY ingest.js ./
 
-ENTRYPOINT ["node", "./ingest.js"]
+ENTRYPOINT ["node", "./control_table_data_ingest/ingest.js"]
