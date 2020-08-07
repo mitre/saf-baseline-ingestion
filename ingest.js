@@ -126,7 +126,7 @@ const controlsType = 'NIST SP 800-53 Control';
       const hash = await getGitHash(profile);
       console.log('old hash', profile.gitHash, 'new hash', hash);
       if (profile.gitHash && profile.gitHash === hash) {
-        profileText = await fs.readFile(`./profiles${profile.link.substr(profile.link.lastIndexOf('/'))}.json`, 'utf8');
+        profileText = await fs.readFile(`/github/workspace/src/assets/data/baselineProfiles${profile.link.substr(profile.link.lastIndexOf('/'))}.json`, 'utf8');
       } else {
         await downloadGitRepo(profile);
 
@@ -136,7 +136,7 @@ const controlsType = 'NIST SP 800-53 Control';
           console.log('inspec error that we\'re just gonna ignore', error);
         }
 
-        await fs.writeFile(`./profiles${profile.link.substr(profile.link.lastIndexOf('/'))}.json`, JSON.stringify(JSON.parse(profileText), null, 2), 'utf8');
+        await fs.writeFile(`/github/workspace/src/assets/data/baselineProfiles${profile.link.substr(profile.link.lastIndexOf('/'))}.json`, JSON.stringify(JSON.parse(profileText), null, 2), 'utf8');
         profile.gitHash = hash;
       }
 
@@ -155,13 +155,13 @@ const controlsType = 'NIST SP 800-53 Control';
 
       const hash = await getGitHash(extra);
       if (extra.gitHash && extra.gitHash === hash) {
-        csv = await fs.readFile(`./profiles${extra.link.substr(extra.link.lastIndexOf('/'))}.csv`, 'utf8');
+        csv = await fs.readFile(`/github/workspace/src/assets/data/baselineProfiles${extra.link.substr(extra.link.lastIndexOf('/'))}.csv`, 'utf8');
       } else {
         await downloadGitRepo(extra);
 
         csv = await fs.readFile(`./${extra.path}`, 'utf8');
 
-        await fs.copyFile(`./${extra.path}`, `./profiles${extra.link.substr(extra.link.lastIndexOf('/'))}.csv`);
+        await fs.copyFile(`./${extra.path}`, `/github/workspace/src/assets/data/baselineProfiles${extra.link.substr(extra.link.lastIndexOf('/'))}.csv`);
         extra.gitHash = hash;
       }
 
