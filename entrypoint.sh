@@ -1,4 +1,5 @@
 #!/bin/bash
 
 cd /control-table-data-ingest
-node ./ingest.js
+echo $INPUT_REPO_OWNER
+# node ./ingest.js

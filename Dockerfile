@@ -1,4 +1,6 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
+
+ARG INPUT_REPO_OWNER
 
 RUN apt-get update && apt-get install -y \
   curl \
@@ -22,4 +24,4 @@ COPY ingest.js ./
 
 COPY entrypoint.sh ./
 
-ENTRYPOINT ["bash", "/control-table-data-ingest/entrypoint.sh"]
+ENTRYPOINT ["bash", "/control-table-data-ingest/entrypoint.sh", $INPUT_REPO_OWNER]

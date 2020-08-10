@@ -3,12 +3,12 @@ Ingest baselines and parse out which NIST 800-53 controls they validate
 
 ## Inputs
 
-### `repo-owner`
+### `repo_owner`
 
-**Optional** The owner of the repo.  Allowed values are "SAF" and "CMS".  Default of `"SAF"`.
+**Optional** The owner of the repo.  Allowed values are "SAF" and "CMS".
 
 ## Example usage
 
-uses: mitre/saf-baseline-ingestion
+uses: docker://mitre/saf-baseline-ingestion
 with:
-  repo-owner: 'CMS'
+  repo_owner: 'SAF'
