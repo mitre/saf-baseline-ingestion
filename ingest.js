@@ -110,7 +110,7 @@ const getProfileControls = (allControls, profileText) => {
   return [...nistTagHits];
 }
 
-const controlsType = 'NIST SP 800-53 Control';
+const controlsType = { 'SAF': 'NIST SP 800-53 Control', 'CMS': 'CMS ARS 3.1 (NIST SP 800-53) Security Control' }[process.env.REPO_OWNER];
 
 (async () => {
   try {
