@@ -1,21 +1,14 @@
-MIT License
+Licensed under the Apache 2.0 license, except as noted below.  
 
-Copyright (c) 2020 The MITRE Corporation
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:  
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+* Redistributions of source code must retain the above copyright/ digital rights legend, this list of conditions and the following Notice.  
+* Redistributions in binary form must reproduce the above copyright copyright/ digital rights legend, this list of conditions and the following Notice in the documentation and/or other materials provided with the distribution.  
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+* Neither the name of The MITRE Corporation nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.  
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+MITRE’s licensed products include third-party materials that are subject to open source or free software licenses (“Open Source Materials”). The Open Source Materials are as follows: 
+
+* CIS Benchmarks. Please visit www.cisecurity.org for full terms of use. 
+
+The Open Source Materials are licensed under the terms of the applicable third-party licenses that accompany the Open Source Materials. MITTRE’s license does not limit a licensee’s rights under the terms of the Open Source Materials license. MITRE’s license also does not grant licensee rights to the Open Source Materials that supersede the terms and conditions of the Open Source Materials license. 
