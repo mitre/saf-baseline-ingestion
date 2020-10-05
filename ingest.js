@@ -60,6 +60,7 @@ const downloadGitRepo = async (profile) => {
       console.log('stdout:', stdout);
       console.log('stderr:', stderr);
     } catch (error) {
+      // we've got 2+ vmware repos
       console.log('git error that we\'re just gonna ignore cause it\'s probably the "is this directory already here" conditional failing which is the point cause git clone fails on attempted overwrite', error);
     }
   } else {
@@ -87,7 +88,7 @@ const generateProfileJson = async (profile) => {
 const getProfileControls = (allControls, profileText) => {
   const hdf = inspec.parse.convertFile(profileText);
 
-  const profiles = hdf["1_0_ExecJson"] ? hdf["1_0_ExecJson"].profiles : [hdf["1_0_ProfileJson"]];
+  const profiles = hdf["1_0_ExecJson"] ? hdf["1_0_ExecJson"].profiles : [hdf["1_0_ProfileJson"]]; // some profiles generate one or the other type at least out of the ones I tested
 
   const controls = [];
   for (const profile of profiles) {
@@ -114,11 +115,14 @@ const controlsType = 'NIST SP 800-53 Control';
 
 (async () => {
   try {
+    // get all the controls that inspecjs knows about and format them in a particular mannner
     const allControls = getAllControlsCanonized();
 
+    // get all the profiles and extra sources of information
     let { baselines, extras } = JSON.parse(await fs.readFile('/github/workspace/src/assets/data/baselines.json', 'utf8'));
     console.log(baselines);
 
+    // go through all the profiles, replace the ones that need to be updated in the cache, and extract all the controls
     const allProfileControls = {};
     for (const profile of baselines) {
       let profileText = '';
@@ -149,6 +153,7 @@ const controlsType = 'NIST SP 800-53 Control';
       }
     }
 
+    // same as above, but for sources that are not inspec profiles
     const allExtraControls = {};
     for (const extra of extras.csv) {
       let csv = '';
@@ -171,9 +176,12 @@ const controlsType = 'NIST SP 800-53 Control';
       console.log('controls that the extra thing has', extra.longName, allExtraControls[extra.longName]);
     }
 
+    // replace baselines.json with the new hashes
     await fs.writeFile('/github/workspace/src/assets/data/baselines.json', JSON.stringify({baselines, extras}, null, 2), 'utf8');
     console.log('overwrite baselines with new hashes');
 
+    // generate the one to many control->profile mapping that says which profiles implement which controls
+    // the format is an array of objects where the first property of the object is the name of the control, the second is a boolean representing if any profile implements the control, and the remainder being the mapping
     const controlMapping = [];
     for (const control of allControls) {
       const mappingProfile = {};
