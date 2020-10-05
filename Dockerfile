@@ -1,8 +1,5 @@
 FROM ubuntu:20.04
 
-ARG INPUT_REPO_OWNER
-ENV REPO_OWNER $INPUT_REPO_OWNER
-
 RUN apt-get update && apt-get install -y \
   curl \
   bash \
