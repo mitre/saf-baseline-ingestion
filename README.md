@@ -2,12 +2,34 @@
 Ingest baselines and parse out which NIST 800-53 controls they validate
 
 ## Example usage
-uses: docker://mitre/saf-baseline-ingestion
+```
+name: Example Action For Baseline Ingestion
+
+on:
+  workflow_dispatch:
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    name: Ingest
+    steps:
+      - name: Pull repo
+        uses: actions/checkout@v2
+      - name: Ingest and process data
+        uses: docker://mitre/saf-baseline-ingestion
+      - name: Commit processed ata
+        run: |
+          git add ./src/assets/data/baselineProfiles/
+          git add ./src/assets/data/baselines.json
+          git add ./src/assets/data/mitre-saf-control-mapping.json
+          git commit -m 'Automated ingestion of profiles' || true
+          git push "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:master
+```
 
 ## License and Author
 ### Authors
 
-- Author:: Amndeep Mann [me@asm.works](mailto:me@asm.works)
+- Author:: Amndeep Singh Mann [me@asm.works](mailto:me@asm.works)
 
 ## NOTICE
 © 2020 The MITRE Corporation.
