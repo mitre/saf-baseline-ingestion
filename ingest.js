@@ -71,6 +71,11 @@ const generateProfileJson = async (profile) => {
     path = `./vmware/${profile.link.substr(profile.link.indexOf('vsphere')).concat(profile.link.includes('vcsa') ? '/wrapper' : '')}`
   }
 
+  // we're stuck to the version of bundler that's integrated with inspec so would be blocked if the lock file was created with a more recent version
+  const { stdout: bundleStdout, stderr: bundleStderr } = await exec(`if [ -f "${path}/Gemfile" ]; then [ -f "${path}/Gemfile.lock" ] && rm "${path}/Gemfile.lock"; bundle install --gemfile="${path}/Gemfile"; fi`, { maxBuffer: maxBuffer });
+  console.log('stdout:', bundleStdout);
+  console.log('stderr:', bundleStderr);
+
   const { stdout: inspecStdout, stderr: inspecStderr } = await exec(`inspec json --chef-license=accept-silent "${path}"`, { maxBuffer: maxBuffer });
   // console.log('stdout:', inspecStdout); // a very large amount of text
   console.log('stderr:', inspecStderr);
