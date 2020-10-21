@@ -30,55 +30,48 @@ const getAllControlsCanonized = () => {
   return allControlsCanonized;
 }
 
+// vmware has an unusual directory structure so they will need special handling
 const vmwareGitUrl = 'https://github.com/vmware/dod-compliance-and-automation.git';
 
 const getGitHash = async (profile) => {
   console.log('git hash', profile.shortName);
-  if (profile.link.startsWith('https://github.com/vmware')) {
-    const { stdout, stderr } = await exec(`git ls-remote --symref ${vmwareGitUrl} HEAD | awk 'FNR == 2 {print $1}'`);
-    console.log('stdout:', stdout);
-    console.log('stderr:', stderr);
-    return stdout.trim();
-  } else if (profile.longName.includes('Google')) {
-    console.log('skipping google cause their repos aren\'t set up for inspec json nor do they generate validate profiles');
+
+  if (profile.longName.includes('Google')) {
+    console.log('skipping google cause their repos don\'t have nist tags and also inspec json fails due to needing credentials for some reason');
     return '0';
-  } else if (profile.shortName === 'AWS S3' || profile.shortName === 'AWS RDS CIS') {
-    console.log('skipping these two aws repos due to inspec issues');
-    return '0';
-  } else {
-    const { stdout, stderr } = await exec(`git ls-remote --symref ${profile.link} HEAD | awk 'FNR == 2 {print $1}'`);
-    console.log('stdout:', stdout);
-    console.log('stderr:', stderr);
-    return stdout.trim();
   }
+
+  let url = profile.link;
+  if (profile.link.startsWith('https://github.com/vmware')) {
+    url = vmwareGitUrl;
+  }
+
+  const { stdout, stderr } = await exec(`git ls-remote --symref ${url} HEAD | awk 'FNR == 2 {print $1}'`);
+  console.log('stdout:', stdout);
+  console.log('stderr:', stderr);
+  return stdout.trim();
 }
 
 const downloadGitRepo = async (profile) => {
+  let cmd = `git clone --depth=1 ${profile.link} "${profile.shortName}"`;
   if (profile.link.startsWith('https://github.com/vmware')) {
-    try {
-      const { stdout, stderr } = await exec(`[ ! -d "./vmware" ] && git clone --depth=1 ${vmwareGitUrl} "./vmware"`);
-      console.log('stdout:', stdout);
-      console.log('stderr:', stderr);
-    } catch (error) {
-      // we've got 2+ vmware repos
-      console.log('git error that we\'re just gonna ignore cause it\'s probably the "is this directory already here" conditional failing which is the point cause git clone fails on attempted overwrite', error);
-    }
-  } else {
-    const { stdout, stderr } = await exec(`git clone --depth=1 ${profile.link} "${profile.shortName}"`);
-    console.log('stdout:', stdout);
-    console.log('stderr:', stderr);
+    cmd = `[ ! -d "./vmware" ] && git clone --depth=1 ${vmwareGitUrl} "./vmware"`;
   }
+
+  const { stdout, stderr } = await exec(cmd);
+  console.log('stdout:', stdout);
+  console.log('stderr:', stderr);
 }
 
 const generateProfileJson = async (profile) => {
   const maxBuffer = 1024 * 1024 * 100; // set max buffer to 100x default size - hopefully ~100MB is sufficient space
-  let inspecStdout, inspecStderr;
 
+  let path = `./${profile.shortName}`
   if (profile.link.startsWith('https://github.com/vmware')) {
-    ({ stdout: inspecStdout, stderr: inspecStderr } = await exec(`inspec json --chef-license=accept-silent "./vmware/${profile.link.substr(profile.link.indexOf('vsphere')).concat(profile.link.includes('vcsa') ? '/wrapper' : '')}"`, { maxBuffer: maxBuffer }));
-  } else {
-    ({ stdout: inspecStdout, stderr: inspecStderr } = await exec(`inspec json --chef-license=accept-silent "./${profile.shortName}"`, { maxBuffer: maxBuffer }));
+    path = `./vmware/${profile.link.substr(profile.link.indexOf('vsphere')).concat(profile.link.includes('vcsa') ? '/wrapper' : '')}`
   }
+
+  const { stdout: inspecStdout, stderr: inspecStderr } = await exec(`inspec json --chef-license=accept-silent "${path}"`, { maxBuffer: maxBuffer });
   // console.log('stdout:', inspecStdout); // a very large amount of text
   console.log('stderr:', inspecStderr);
 

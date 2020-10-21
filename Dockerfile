@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
   && apt-get install -y nodejs \
   && rm -rf /var/lib/apt/lists/*
 
-RUN curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec -v 4.18.108
+RUN curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
 WORKDIR /control-table-data-ingest
 
