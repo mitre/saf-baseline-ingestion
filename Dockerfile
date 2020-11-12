@@ -18,6 +18,8 @@ RUN curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
 ENV PATH="/opt/inspec/embedded/bin:$PATH"
 
+ENV CHEF_LICENSE=accept-silent
+
 WORKDIR /control-table-data-ingest
 
 COPY package.json package-lock.json ./

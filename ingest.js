@@ -58,9 +58,14 @@ const downloadGitRepo = async (profile) => {
     cmd = `[ ! -d "./vmware" ] && git clone --depth=1 ${vmwareGitUrl} "./vmware"`;
   }
 
-  const { stdout, stderr } = await exec(cmd);
-  console.log('stdout:', stdout);
-  console.log('stderr:', stderr);
+  try {
+    const { stdout, stderr } = await exec(cmd);
+    console.log('stdout:', stdout);
+    console.log('stderr:', stderr);
+  } catch (error) {
+    // we've got 2+ vmware repos
+    console.log('git error that we\'re just gonna ignore cause it\'s probably the "is this directory already here" conditional failing which is the point cause git clone fails on attempted overwrite', error);
+  }
 }
 
 const generateProfileJson = async (profile) => {
@@ -76,7 +81,7 @@ const generateProfileJson = async (profile) => {
   console.log('stdout:', bundleStdout);
   console.log('stderr:', bundleStderr);
 
-  const { stdout: inspecStdout, stderr: inspecStderr } = await exec(`inspec json --chef-license=accept-silent "${path}"`, { maxBuffer: maxBuffer });
+  const { stdout: inspecStdout, stderr: inspecStderr } = await exec(`/usr/bin/inspec json "${path}"`, { maxBuffer: maxBuffer });
   // console.log('stdout:', inspecStdout); // a very large amount of text
   console.log('stderr:', inspecStderr);
 
