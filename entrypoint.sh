@@ -2,3 +2,4 @@
 
 cd /control-table-data-ingest
 node ./ingest.js
+exit $?
