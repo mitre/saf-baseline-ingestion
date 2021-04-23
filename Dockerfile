@@ -20,6 +20,8 @@ ENV PATH="/opt/inspec/embedded/bin:$PATH"
 
 ENV CHEF_LICENSE=accept-silent
 
+RUN gem install bundler
+
 WORKDIR /control-table-data-ingest
 
 COPY package.json package-lock.json ./
